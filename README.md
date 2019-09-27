@@ -9,7 +9,7 @@ express-server currently is a very basic REST API build with NodeJS, Express.js,
     - Install some type of MySQL UI (XAMPP comes with this)
     - Using the MySQL UI, create a new database called 'api'
     - Run this script to create the table
-        CREATE TABLE `users` (
+        - CREATE TABLE `users` (
         `id`       int(11)     unsigned NOT NULL AUTO_INCREMENT,
         `name`     varchar(30) DEFAULT '',
         `email`    varchar(50) DEFAULT '',
@@ -23,11 +23,9 @@ express-server currently is a very basic REST API build with NodeJS, Express.js,
             
 ## Using the API
 
-The API currently can only read, create, and delete users. Here are the endpoints that currently exist. For best results,
-use Postman to send each request.
-    1. GET http://localhost:3000/users (Get all users)
-    2. GET http://localhost:3000/users/:id (Get individual user by id)
-    3. DELETE http://localhost:3000/users/:id (Delete individual user by id)
-    4. POST http://localhost:3000/users (Create a new user)
-        - For this one, passing in the data requires putting the data into the body as raw data (in Postman)
-        - ex: name=Dinesh Chugtai&email=dinesh@piedpiper.com
+1. The API currently can only read, create, and delete users. Here are the endpoints that currently exist. For best results, use Postman to send each request.
+    - GET http://localhost:3000/users (Get all users)
+    - GET http://localhost:3000/users/:id (Get individual user by id)
+    - DELETE http://localhost:3000/users/:id (Delete individual user by id)
+    - POST http://localhost:3000/users (Create a new user)
+        - For this one, passing in the data requires using the form on index.html
