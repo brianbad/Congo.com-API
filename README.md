@@ -17,7 +17,7 @@ express-server currently is a very basic REST API build with NodeJS, Express.js,
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
     - The API currently expects the database username & password to be 'root' & '' respectively (remove quotes).
     - When your table is created, run this SQL query to create some test data
-        INSERT INTO users (name, email) 
+        - INSERT INTO users (name, email) 
         VALUES ('Richard Hendricks', 'richard@piedpiper.com'), 
                 ('Bertram Gilfoyle',  'gilfoyle@piedpiper.com');
             
