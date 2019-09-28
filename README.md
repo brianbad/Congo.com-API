@@ -26,7 +26,7 @@ express-server currently is a very basic REST API build with NodeJS, Express.js,
 1. Here are the current endpoints that exist
     - AUTHENTICATION
         - POST http://localhost:3000/login
-            - Pass in the username and password via raw Postman request body (ie. username=admin&password=password)
+            - The username and password can be passed in via the request body as JSON, raw data (ie. username=admin&password=password), or via Key/Value pairs (x-www-form-urlencoded)
             - Note: To generate a valid JWT, the only valid account is username: admin, password: password. These credentials are currently hard coded (TODO: Actually verify credentials through the DB).
 
     - USERS
@@ -34,4 +34,4 @@ express-server currently is a very basic REST API build with NodeJS, Express.js,
         - GET http://localhost:3000/users/:id (Get individual user by id)
         - DELETE http://localhost:3000/users/:id (Delete individual user by id)
         - POST http://localhost:3000/users (Create a new user)
-            - For this one, pass in the data via raw Postman body (ie. name=Name&email=email@email.com)
+            - The name and email can be passed in via the request body as JSON, raw data (ie. name=John Doe&email=jdoe@email.com), or via Key/Value pairs (x-www-form-urlencoded)
