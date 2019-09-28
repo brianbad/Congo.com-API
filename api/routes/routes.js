@@ -2,16 +2,10 @@
 const pool = require('../data/config');
 
 const router = app => {
-    app.get('/', (request, response) => {
-        response.send({
-            message: 'Node.js and Express REST API'
-        });
-    });
-
+    // Get all users
     app.get('/users', (request, response) => {
         pool.query('SELECT * FROM users', (error, result) => {
             if (error) throw error;
-     
             response.send(result);
         });
     });
@@ -22,7 +16,6 @@ const router = app => {
     
         pool.query('SELECT * FROM users WHERE id = ?', id, (error, result) => {
             if (error) throw error;
-    
             response.send(result);
         });
     });
@@ -31,7 +24,6 @@ const router = app => {
     app.post('/users', (request, response) => {
         pool.query('INSERT INTO users SET ?', request.body, (error, result) => {
             if (error) throw error;
-    
             response.status(201).send(`User added with ID: ${result.insertId}`);
         });
     });
@@ -42,7 +34,6 @@ const router = app => {
     
         pool.query('DELETE FROM users WHERE id = ?', id, (error, result) => {
             if (error) throw error;
-    
             response.send('User deleted.');
         });
     });
