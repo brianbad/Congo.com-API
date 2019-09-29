@@ -1,5 +1,7 @@
 // Load the MySQL pool connection
 const pool = require('../../data/config');
+// Load the bcrypt library
+const bcrypt = require('bcrypt');
 
 let jwt = require('jsonwebtoken');
 let authConfig = require('../../auth/config');
@@ -15,24 +17,35 @@ const authenticationRouter = app => {
             pool.query('SELECT * FROM users WHERE username = ?', username, (error, result) => {
                 if (error) throw error;
 
-                if (password === result[0].password) {
-                    let token = jwt.sign(
-                        {username: username},
-                        authConfig.secret,
-                        {expiresIn: '24h'} // expires in 24 hours
-                    );
-                    // return the JWT token for the future API calls
-                    response.json({
-                        success: true,
-                        message: 'Authentication successful!',
-                        token: token
-                    });
-                } else {
-                    response.status(403).json({
+                if (result.length === 0) {
+                    return response.status(403).json({
                         success: false,
-                        message: 'Incorrect username or password'
+                        message: 'User does not exist.'
                     });
                 }
+
+                bcrypt.compare(password, result[0].password, function(err, res) {
+                    if (res) {
+                        // Passwords match
+                        let token = jwt.sign(
+                            {username: username},
+                            authConfig.secret,
+                            {expiresIn: '24h'} // expires in 24 hours
+                        );
+                        // return the JWT token for the future API calls
+                        response.json({
+                            success: true,
+                            message: 'Authentication successful!',
+                            token: token
+                        });
+                    } else {
+                        // Passwords don't match
+                        response.status(403).json({
+                            success: false,
+                            message: 'Incorrect password'
+                        });
+                    } 
+                });
             });
         } else {
             response.status(400).json({
