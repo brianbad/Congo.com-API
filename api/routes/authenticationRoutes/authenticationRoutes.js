@@ -1,12 +1,12 @@
 // Load the MySQL pool connection
-const pool = require('../../data/config');
+const pool = require('../../config/databaseConfig');
 // Load the bcrypt library
 const bcrypt = require('bcrypt');
 // Load the endpoint variables
 const endpoints = require('../../constants/endpoints');
 
 let jwt = require('jsonwebtoken');
-let authConfig = require('../../auth/config');
+let authConfig = require('../../config/authenticationConfig');
 let authenticateToken = require('../../auth/authenticateToken');
 
 const authenticationRouter = app => {

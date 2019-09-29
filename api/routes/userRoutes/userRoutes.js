@@ -1,5 +1,5 @@
 // Load the MySQL pool connection
-const pool = require('../../data/config');
+const pool = require('../../config/databaseConfig');
 // Load the bcrypt library
 const bcrypt = require('bcrypt');
 // Load the authentication service
