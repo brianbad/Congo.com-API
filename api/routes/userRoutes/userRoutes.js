@@ -1,11 +1,11 @@
 // Load the MySQL pool connection
 const pool = require('../../config/databaseConfig');
-// Load the bcrypt library
-const bcrypt = require('bcrypt');
 // Load the authentication service
 let authentication = require('../../auth/authenticateToken');
 // Load the endpoint variables
 const endpoints = require('../../constants/endpoints');
+// Load the hashing helper functions
+const hashing = require('../../auth/hashing');
 
 const userRouter = app => {
     // Get all users
@@ -38,19 +38,10 @@ const userRouter = app => {
                     message: "Username and Password must have length greater than 0."
                 });
             } else {
-                // The second argument is the number of rounds to use when generating a salt.
-                bcrypt.hash(password, 10, (err, hash) => {
-                    if (err) {
-                        return response.status(500).json({
-                            error: err
-                        });
-                    } else {
-                        request.body.password = hash;
-                        pool.query('INSERT INTO users SET ?', request.body, (error, result) => {
-                            if (error) throw error;
-                            response.status(201).send(`User added.`);
-                        });
-                    }
+                request.body.password = hashing.generateHash(password);
+                pool.query('INSERT INTO users SET ?', request.body, (error, result) => {
+                    if (error) throw error;
+                    response.status(201).send(`User added.`);
                 });
             }
         } else {
@@ -64,6 +55,12 @@ const userRouter = app => {
     // Update an existing user by username
     app.put(endpoints.UPDATE_USER_BY_USERNAME, authentication.checkToken, (request, response) => {
         const username = request.params.username;
+
+        // Hashing the new password if it exists
+        let password = request.body.password;
+        if (password) {
+            request.body.password = hashing.generateHash(password);
+        }
     
         pool.query('UPDATE users SET ? WHERE username = ?', [request.body, username], (error, result) => {
             if (error) throw error;
