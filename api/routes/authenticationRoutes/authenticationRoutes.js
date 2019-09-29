@@ -2,6 +2,8 @@
 const pool = require('../../data/config');
 // Load the bcrypt library
 const bcrypt = require('bcrypt');
+// Load the endpoint variables
+const endpoints = require('../../constants/endpoints');
 
 let jwt = require('jsonwebtoken');
 let authConfig = require('../../auth/config');
@@ -9,7 +11,7 @@ let authenticateToken = require('../../auth/authenticateToken');
 
 const authenticationRouter = app => {
     // Attempt to login the user and generate a JWT
-    app.post('/login', (request, response) => {
+    app.post(endpoints.LOGIN, (request, response) => {
         let username = request.body.username;
         let password = request.body.password;
 

@@ -4,28 +4,30 @@ const pool = require('../../data/config');
 const bcrypt = require('bcrypt');
 // Load the authentication service
 let authentication = require('../../auth/authenticateToken');
+// Load the endpoint variables
+const endpoints = require('../../constants/endpoints');
 
 const userRouter = app => {
     // Get all users
-    app.get('/users', authentication.checkToken, (request, response) => {
+    app.get(endpoints.GET_USERS, authentication.checkToken, (request, response) => {
         pool.query('SELECT * FROM users', (error, result) => {
             if (error) throw error;
             response.send(result);
         });
     });
 
-    // Display a single user by ID
-    app.get('/users/:id', authentication.checkToken, (request, response) => {
-        const id = request.params.id;
+    // Display a single user by username
+    app.get(endpoints.GET_USER_BY_USERNAME, authentication.checkToken, (request, response) => {
+        const username = request.params.username;
     
-        pool.query('SELECT * FROM users WHERE id = ?', id, (error, result) => {
+        pool.query('SELECT * FROM users WHERE username = ?', username, (error, result) => {
             if (error) throw error;
             response.send(result);
         });
     });
 
     // Add a new user (Intentionally does not require JWT)
-    app.post('/users', (request, response) => {
+    app.post(endpoints.CREATE_USER, (request, response) => {
         let username = request.body.username;
         let password = request.body.password;
 
@@ -59,24 +61,24 @@ const userRouter = app => {
         }
     });
 
-    // Update an existing user
-    app.put('/users/:id', (request, response) => {
-        const id = request.params.id;
+    // Update an existing user by username
+    app.put(endpoints.UPDATE_USER_BY_USERNAME, authentication.checkToken, (request, response) => {
+        const username = request.params.username;
     
-        pool.query('UPDATE users SET ? WHERE id = ?', [request.body, id], (error, result) => {
+        pool.query('UPDATE users SET ? WHERE username = ?', [request.body, username], (error, result) => {
             if (error) throw error;
     
-            response.send('User updated successfully.');
+            response.send('User ' + username + ' updated successfully.');
         });
     });
 
-    // Delete a user
-    app.delete('/users/:id', authentication.checkToken, (request, response) => {
-        const id = request.params.id;
+    // Delete a user by username
+    app.delete(endpoints.DELETE_USER_BY_USERNAME, authentication.checkToken, (request, response) => {
+        const username = request.params.username;
     
-        pool.query('DELETE FROM users WHERE id = ?', id, (error, result) => {
+        pool.query('DELETE FROM users WHERE username= ?', username, (error, result) => {
             if (error) throw error;
-            response.send('User deleted.');
+            response.send('User ' + username + ' deleted.');
         });
     });
 }
