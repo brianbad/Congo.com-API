@@ -33,4 +33,6 @@ express-server currently is a very basic REST API build with NodeJS, Express.js,
         - GET http://localhost:3000/users/:id (Get individual user by id)
         - DELETE http://localhost:3000/users/:id (Delete individual user by id)
         - POST http://localhost:3000/users (Create a new user)
-            - The name and email can be passed in via the request body as JSON, raw data (ie. name=John Doe&email=jdoe@email.com), or via Key/Value pairs (x-www-form-urlencoded)
+            - The data can be passed in via the request body as JSON, raw data (ie. name=John Doe&email=jdoe@email.com), or via Key/Value pairs (x-www-form-urlencoded)
+        - PUT http://localhost:3000/users/:id (Update the individual user by id)
+            - The data can be passed in via the request body as JSON, raw data (ie. name=John Doe&email=jdoe@email.com), or via Key/Value pairs (x-www-form-urlencoded)
