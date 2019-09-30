@@ -1,6 +1,6 @@
-# express-server
+# Congo.com API
 
-express-server currently is a very basic REST API build with NodeJS, Express.js, and MySQL.
+Congo.com API is a REST API built with NodeJS, Express.js, and MySQL. This API is to be used by our fake online store Congo.com.
 
 ## Developer Setup Guide
 
