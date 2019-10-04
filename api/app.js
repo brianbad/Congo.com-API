@@ -6,10 +6,14 @@ const authenticationRoutes = require('./routes/authenticationRoutes/authenticati
 // parse it into a JSON object that we can work with.
 const bodyParser = require('body-parser');
 
+const cors = require('cors');
+
 // Require packages and set the port
 const express = require('express');
 const port = process.env.port || 3000;
 const app = express();
+
+app.use(cors());
 
 // Use Node.js body parsing middleware
 app.use(bodyParser.json());
