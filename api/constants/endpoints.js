@@ -1,5 +1,6 @@
 module.exports = {
     LOGIN: "/login",
+    GET_USER_FROM_TOKEN: "/getUserFromToken",
 
     GET_USERS: "/users",
     GET_USER_BY_USERNAME: "/users/:username",
