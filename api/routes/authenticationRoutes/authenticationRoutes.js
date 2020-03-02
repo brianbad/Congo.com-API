@@ -7,9 +7,17 @@ const hashing = require('../../auth/hashing');
 
 let jwt = require('jsonwebtoken');
 let authConfig = require('../../config/authenticationConfig');
-let authenticateToken = require('../../auth/authenticateToken');
+let authentication = require('../../auth/authenticateToken');
 
 const authenticationRouter = app => {
+    // Retrieve the username associated with a provided JWT.
+    app.get(endpoints.GET_USER_FROM_TOKEN, authentication.checkToken, (request, response) => {
+        return response.status(200).json({
+            username: request.decoded.username,
+            expiration: request.decoded.exp
+        });
+    })
+
     // Attempt to login the user and generate a JWT
     app.post(endpoints.LOGIN, (request, response) => {
         let username = request.body.username;
