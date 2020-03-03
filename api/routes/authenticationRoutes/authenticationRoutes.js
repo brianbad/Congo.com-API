@@ -10,11 +10,17 @@ let authConfig = require('../../config/authenticationConfig');
 let authentication = require('../../auth/authenticateToken');
 
 const authenticationRouter = app => {
-    // Retrieve the username associated with a provided JWT.
+    // Retrieve the user associated with a provided JWT.
     app.get(endpoints.GET_USER_FROM_TOKEN, authentication.checkToken, (request, response) => {
-        return response.status(200).json({
-            username: request.decoded.username,
-            expiration: request.decoded.exp
+        pool.query('SELECT * FROM users WHERE username = ?', request.decoded.username, (error, result) => {
+            if (error) throw error;
+            result = result[0]
+            return response.status(200).json({
+                username: result.username,
+                firstName: result.firstName,
+                lastName: result.lastName,
+                email: result.email
+            });
         });
     })
 
