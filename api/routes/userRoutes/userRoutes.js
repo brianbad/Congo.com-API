@@ -61,12 +61,21 @@ const userRouter = app => {
         if (password) {
             request.body.password = hashing.generateHash(password);
         }
-    
-        pool.query('UPDATE users SET ? WHERE username = ?', [request.body, username], (error, result) => {
-            if (error) throw error;
-    
-            response.send('User ' + username + ' updated successfully.');
-        });
+
+        if (request.decoded.username != username) {
+            return response.status(401).json({
+                success: false,
+                message: "You are not authorized to modify this account"
+            });
+        } else {
+            pool.query('UPDATE users SET ? WHERE username = ?', [request.body, username], (error, result) => {
+                if (error) throw error;
+                return response.status(200).json({
+                    success: true,
+                    message: "User " + username + " updated successfully."
+                });
+            });
+        }
     });
 
     // Delete a user by username
