@@ -48,9 +48,23 @@ const itemRouter = app => {
 
     // Add a new item
     app.post(endpoints.CREATE_ITEM, authentication.checkToken, (request, response) => {
-        pool.query('INSERT INTO ITEMS SET ?', request.body, (error, result) => {
+        let imageFilename = request.body.imageFilename;
+        delete request.body["imageFilename"];
+
+        pool.query('INSERT INTO items SET ?', request.body, (error, result) => {
             if (error) throw error;
-            response.status(201).send('Item added.');
+
+            let imageFilenameMappingBody = {
+                itemId: result.insertId,
+                filename: imageFilename
+            }
+            pool.query('INSERT INTO item_images SET ?', imageFilenameMappingBody, (error, result) => {
+                if (error) throw error;
+                return response.status(200).json({
+                    success: true,
+                    message: 'Item added.'
+                })
+            })
         });
     });
 
