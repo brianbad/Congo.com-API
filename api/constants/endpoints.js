@@ -9,7 +9,8 @@ module.exports = {
     DELETE_USER_BY_USERNAME: "/users/delete/:username",
 
     GET_ITEMS: "/items",
-    GET_ITEM_BY_ID: "/items/:itemId",
+    GET_ITEM_BY_ID: "/item/:itemId",
+    SEARCH_ITEMS: "/items/search",
     CREATE_ITEM: "/items/create",
     UPDATE_ITEM_BY_ID: "/items/update/:itemId",
     DELETE_ITEM_BY_ID: "/items/delete/:itemId"

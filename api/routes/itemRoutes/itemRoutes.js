@@ -26,6 +26,16 @@ const itemRouter = app => {
         });
     });
 
+    // Get a list of items by search term
+    app.get(endpoints.SEARCH_ITEMS, (request, response) => {
+        const searchTerm = request.query.query;
+
+        pool.query("SELECT * FROM items INNER JOIN item_images ON item_images.itemId = items.itemId WHERE items.itemName LIKE '%" + searchTerm + "%'", (error, result) => {
+            if (error) throw error;
+            response.send(result);
+        });
+    })
+
     // Add a new item
     app.post(endpoints.CREATE_ITEM, authentication.checkToken, (request, response) => {
         pool.query('INSERT INTO ITEMS SET ?', request.body, (error, result) => {
