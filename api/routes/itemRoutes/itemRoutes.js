@@ -26,6 +26,16 @@ const itemRouter = app => {
         });
     });
 
+    // Get items by seller
+    app.get(endpoints.GET_ITEMS_BY_SELLER, (request, response) => {
+        const seller = request.params.username;
+    
+        pool.query('SELECT * FROM items INNER JOIN item_images ON item_images.itemId = items.itemId WHERE items.seller = ? ', seller, (error, result) => {
+            if (error) throw error;
+            response.send(result);
+        });
+    });
+
     // Get a list of items by search term
     app.get(endpoints.SEARCH_ITEMS, (request, response) => {
         const searchTerm = request.query.query;
