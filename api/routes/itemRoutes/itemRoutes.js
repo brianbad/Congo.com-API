@@ -16,6 +16,16 @@ const itemRouter = app => {
         });
     });
 
+    // Get a list of random items
+    app.get(endpoints.GET_ITEMS_AT_RANDOM, (request, response) => {
+        let quantity = request.params.quantity;
+
+        pool.query('SELECT * FROM items INNER JOIN item_images ON items.itemId = item_images.itemId ORDER BY RAND() LIMIT ' + quantity, (error, result) => {
+            if (error) throw error;
+            response.send(result);
+        })
+    });
+
     // Get a single item by id
     app.get(endpoints.GET_ITEM_BY_ID, (request, response) => {
         const itemId = request.params.itemId;

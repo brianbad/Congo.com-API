@@ -11,6 +11,7 @@ module.exports = {
     GET_ITEMS: "/items",
     GET_ITEM_BY_ID: "/item/:itemId",
     GET_ITEMS_BY_SELLER: "/items/fromSeller/:username",
+    GET_ITEMS_AT_RANDOM: "/items/random/:quantity",
     SEARCH_ITEMS: "/items/search",
     CREATE_ITEM: "/items/create",
     UPDATE_ITEM_BY_ID: "/items/update/:itemId",

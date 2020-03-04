@@ -14,12 +14,16 @@ const authenticationRouter = app => {
     app.get(endpoints.GET_USER_FROM_TOKEN, authentication.checkToken, (request, response) => {
         pool.query('SELECT * FROM users WHERE username = ?', request.decoded.username, (error, result) => {
             if (error) throw error;
-            result = result[0]
-            return response.status(200).json({
-                username: result.username,
-                firstName: result.firstName,
-                lastName: result.lastName,
-                email: result.email
+            result = result[0];
+            pool.query('SELECT * FROM items INNER JOIN item_images ON items.itemId = item_images.itemId WHERE seller = ?', request.decoded.username, (error, resultListings) => {
+                if (error) throw error;
+                return response.status(200).json({
+                    username: result.username,
+                    firstName: result.firstName,
+                    lastName: result.lastName,
+                    email: result.email,
+                    listings: resultListings
+                });
             });
         });
     })
