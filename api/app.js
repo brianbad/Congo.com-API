@@ -1,5 +1,6 @@
 const userRoutes = require('./routes/userRoutes/userRoutes');
 const itemRoutes = require('./routes/itemRoutes/itemRoutes');
+const reviewRoutes = require('./routes/reviewRoutes/reviewRoutes');
 const authenticationRoutes = require('./routes/authenticationRoutes/authenticationRoutes');
 // In order to easily deal with POST and PUT requests to our API, we will 
 // add body parsing middleware. This is where our body-parser module comes 
@@ -25,6 +26,7 @@ app.use(bodyParser.urlencoded({
 authenticationRoutes(app);
 userRoutes(app);
 itemRoutes(app);
+reviewRoutes(app);
 
 // Start the server
 const server = app.listen(port, (error) => {

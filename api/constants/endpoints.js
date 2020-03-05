@@ -15,5 +15,8 @@ module.exports = {
     SEARCH_ITEMS: "/items/search",
     CREATE_ITEM: "/items/create",
     UPDATE_ITEM_BY_ID: "/items/update/:itemId",
-    DELETE_ITEM_BY_ID: "/items/delete/:itemId"
+    DELETE_ITEM_BY_ID: "/items/delete/:itemId",
+
+    GET_ITEM_REVIEWS: "/item/:itemId/reviews",
+    CREATE_REVIEW: "/item/review"
 }
