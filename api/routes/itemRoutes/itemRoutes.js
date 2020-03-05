@@ -50,7 +50,15 @@ const itemRouter = app => {
     app.get(endpoints.SEARCH_ITEMS, (request, response) => {
         const searchTerm = request.query.query;
 
-        pool.query("SELECT * FROM items INNER JOIN item_images ON item_images.itemId = items.itemId WHERE items.itemName LIKE '%" + searchTerm + "%'", (error, result) => {
+        let termArray = searchTerm.split(" ");
+
+        let query = "SELECT * FROM items INNER JOIN item_images ON item_images.itemId = items.itemId WHERE";
+        for (let i = 0; i < termArray.length; i++) {
+            query += " items.keywords LIKE '%" + termArray[i] + "%'";
+            if (i < termArray.length - 1) query += " AND";
+        }
+
+        pool.query(query, (error, result) => {
             if (error) throw error;
             response.send(result);
         });
