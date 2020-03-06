@@ -17,6 +17,8 @@ module.exports = {
     UPDATE_ITEM_BY_ID: "/items/update/:itemId",
     DELETE_ITEM_BY_ID: "/items/delete/:itemId",
 
+    GET_CATEGORIES: "/common/categories",
+
     GET_ITEM_REVIEWS: "/item/:itemId/reviews",
     CREATE_REVIEW: "/item/review"
 }

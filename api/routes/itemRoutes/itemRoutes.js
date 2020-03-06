@@ -49,10 +49,16 @@ const itemRouter = app => {
     // Get a list of items by search term
     app.get(endpoints.SEARCH_ITEMS, (request, response) => {
         const searchTerm = request.query.query;
+        const category = request.query.category
 
         let termArray = searchTerm.split(" ");
-
-        let query = "SELECT * FROM items INNER JOIN item_images ON item_images.itemId = items.itemId WHERE";
+        let query = "";
+        if (category) {
+            query = "SELECT * FROM items INNER JOIN item_images ON item_images.itemId = items.itemId WHERE items.category = " + category + " AND";
+        } else {
+            query = "SELECT * FROM items INNER JOIN item_images ON item_images.itemId = items.itemId WHERE";
+        }
+        
         for (let i = 0; i < termArray.length; i++) {
             query += " items.keywords LIKE '%" + termArray[i] + "%'";
             if (i < termArray.length - 1) query += " AND";
@@ -68,6 +74,8 @@ const itemRouter = app => {
     app.post(endpoints.CREATE_ITEM, authentication.checkToken, (request, response) => {
         let imageFilename = request.body.imageFilename;
         delete request.body["imageFilename"];
+
+        request.body["keywords"] = request.body["itemName"];
 
         pool.query('INSERT INTO items SET ?', request.body, (error, result) => {
             if (error) throw error;
